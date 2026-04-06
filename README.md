@@ -1,6 +1,6 @@
 # Open 4-in-1 AM32 ESC
 
-An open-source 4-in-1 ESC for FPV drones. Runs [AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) firmware, works with Betaflight over DShot. Designed in KiCad, ready to order from JLCPCB.
+An open-source 4-in-1 ESC for FPV drones. Runs [AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) firmware, works with Betaflight over DShot. Designed in KiCad.
 
 I made a video explaining how it works: https://www.youtube.com/watch?v=TwAmmPxOpTM
 
@@ -21,7 +21,7 @@ I made a video explaining how it works: https://www.youtube.com/watch?v=TwAmmPxO
 | Protocol | DShot (Betaflight compatible) |
 | Power supply | LMR51420YDDCR buck + TLV76733DRVR LDO |
 | Connector | JST SM08B-SRSS-TB (Betaflight 8-pin standard) |
-| PCB | 6-layer, 1oz copper, designed for JLCPCB PCBA |
+| PCB | 6-layer, 1oz copper |
 
 ## Alternative Components
 
