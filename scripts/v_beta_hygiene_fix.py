@@ -1,160 +1,183 @@
-"""V-beta hygiene fixes — scoped property-value substitutions only.
+"""V-beta hygiene fixes — surgical line-by-line property-value substitutions.
 
-Touches Footprint and lib_id property strings inside (symbol ...) blocks
-in .kicad_sch files. Does not modify pin positions, geometry, hierarchy,
-or any S-expression structure.
+Operates on .kicad_sch files in BINARY MODE. Touches only the bytes inside
+property values; never modifies whitespace, line endings, indentation, or
+S-expression structure.
 
 Fixes:
-  1. Footprint namespace cleanup:
-     - `components:<fp>` -> `4in1ESC:<fp>`  (footprint lib is "4in1ESC", not "components")
-     - `ESCLibrary:<fp>` -> `4in1ESC:<fp>`  (stale lib reference)
-  2. Symbol lib_id cleanup:
-     - `ESCLibrary:AT32F421G8U7` -> `components:AT32F421G8U7`
-  3. Cap/resistor footprint namespace swap (cosmetic but ugly on BOM):
-     - Resistors (R*) using `Capacitor_SMD:C_<size>` -> `Resistor_SMD:R_<size>`
-     - Caps (C*, CL*) using `Resistor_SMD:R_<size>` -> `Capacitor_SMD:C_<size>`
+  1. Footprint namespace cleanup (unique-string replacements):
+     - `components:IND-SMD_L1.6-W0.8_FTC160865SR47MBCA` -> `4in1ESC:...`
+     - `components:QFN-24_L4.0-W4.0-P0.50-TL-EP2.8`     -> `4in1ESC:...`
+     - `ESCLibrary:QFN-28_L4.0-W4.0-P0.40-TL-EP2.4`     -> `4in1ESC:...`
+  2. Cap/resistor footprint namespace swap (Reference-scoped):
+     - Resistor (Reference R*) using `Capacitor_SMD:C_<size>` -> `Resistor_SMD:R_<size>`
+     - Capacitor (Reference C* / CL*) using `Resistor_SMD:R_<size>` -> `Capacitor_SMD:C_<size>`
 
-Verify with `git diff` before committing. The script preserves byte
-order and indentation outside the substituted strings.
+Verifies with dry-run output then writes files in-place. Run with --apply
+to write; default is dry-run.
 """
 import re
+import sys
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parent.parent
 FILES = [PROJECT / "4in1ESC.kicad_sch", PROJECT / "ESC.kicad_sch"]
 
-# Iterate top-level (symbol "...") blocks and operate inside each.
-# Block boundary detection: count parens.
+# Unique-string footprint substitutions (byte-level, exact match).
+UNIQUE_SUBS = [
+    (b'"components:IND-SMD_L1.6-W0.8_FTC160865SR47MBCA"',
+     b'"4in1ESC:IND-SMD_L1.6-W0.8_FTC160865SR47MBCA"'),
+    (b'"components:QFN-24_L4.0-W4.0-P0.50-TL-EP2.8"',
+     b'"4in1ESC:QFN-24_L4.0-W4.0-P0.50-TL-EP2.8"'),
+    (b'"ESCLibrary:QFN-28_L4.0-W4.0-P0.40-TL-EP2.4"',
+     b'"4in1ESC:QFN-28_L4.0-W4.0-P0.40-TL-EP2.4"'),
+]
 
-def find_symbol_blocks(text):
-    """Yield (start, end, body) for each top-level (symbol ...) instance block.
+# Reference designator pattern (within a Reference property line)
+REF_RE = re.compile(rb'\(property "Reference" "([^"]+)"')
+FP_RE = re.compile(rb'\(property "Footprint" "([^"]+)"')
 
-    Top-level instance blocks are indented one level (one tab/4-space) and
-    contain (lib_id "..."). We skip the lib_symbols cache (those are nested
-    deeper or also at top level but we filter by presence of (lib_id which
-    only instances have).
-    """
-    i = 0
-    while True:
-        m = re.search(r'^(\t|    )\(symbol "', text[i:], re.MULTILINE)
-        if not m:
-            return
-        start = i + m.start()
-        # find matching close paren
-        depth = 0
-        j = start
-        while j < len(text):
-            c = text[j]
-            if c == '(':
-                depth += 1
-            elif c == ')':
-                depth -= 1
-                if depth == 0:
-                    j += 1
-                    break
-            j += 1
-        body = text[start:j]
-        # Filter to instance blocks (contain lib_id property)
-        if re.search(r'\(lib_id "', body):
-            yield start, j, body
-        i = j
+# Library-cache fence. Inside (lib_symbols ...), property values are template
+# defaults — we leave them alone. They match Reference="C", "R", "U", etc.
+# Only operate on instance blocks (outside lib_symbols).
 
 
-SIZE_TOKEN_RE = re.compile(r'_([0-9]{4})_([0-9]+)Metric')
+def find_lib_symbols_range(data: bytes):
+    """Return (start, end) byte offsets of the (lib_symbols ...) block, or None."""
+    m = re.search(rb'\(lib_symbols\b', data)
+    if not m:
+        return None
+    start = m.start()
+    # Match parens
+    depth = 0
+    i = start
+    while i < len(data):
+        c = data[i:i+1]
+        if c == b'(':
+            depth += 1
+        elif c == b')':
+            depth -= 1
+            if depth == 0:
+                return start, i + 1
+        i += 1
+    return None
 
 
-def fix_block(body):
-    """Apply substitutions within a single instance block. Return new body."""
-    new = body
-
-    ref_m = re.search(r'\(property "Reference" "([^"]+)"', new)
-    fp_m = re.search(r'\(property "Footprint" "([^"]*)"', new)
-    if not ref_m:
-        return new
-    ref = ref_m.group(1)
-
-    if fp_m:
-        old_fp = fp_m.group(1)
-        new_fp = old_fp
-
-        # Namespace cleanup
-        if new_fp.startswith("components:"):
-            new_fp = "4in1ESC:" + new_fp[len("components:"):]
-        elif new_fp.startswith("ESCLibrary:"):
-            new_fp = "4in1ESC:" + new_fp[len("ESCLibrary:"):]
-
-        # Cap/resistor namespace swap based on Reference designator
-        if ref.startswith(("CL", "C")) and not ref.startswith(("Conn", "Crystal")):
-            # Capacitor: should use Capacitor_SMD:C_*
-            if new_fp.startswith("Resistor_SMD:R_"):
-                # Resistor_SMD:R_1206_3216Metric -> Capacitor_SMD:C_1206_3216Metric
-                rest = new_fp[len("Resistor_SMD:R_"):]
-                new_fp = "Capacitor_SMD:C_" + rest
-        elif ref.startswith("R") and ref not in ("Reference",) and not ref.startswith("Rsense"):
-            # Resistor: should use Resistor_SMD:R_*
-            if new_fp.startswith("Capacitor_SMD:C_"):
-                rest = new_fp[len("Capacitor_SMD:C_"):]
-                new_fp = "Resistor_SMD:R_" + rest
-        # Special: Rsense (current sense shunt) keeps Resistor_SMD: prefix - already correct
-
-        if new_fp != old_fp:
-            new = new.replace(
-                f'(property "Footprint" "{old_fp}"',
-                f'(property "Footprint" "{new_fp}"',
-                1,
-            )
-
-    # lib_id cleanup (instance side): ESCLibrary:AT32F421G8U7 -> components:AT32F421G8U7
-    new = re.sub(
-        r'\(lib_id "ESCLibrary:([^"]+)"',
-        r'(lib_id "components:\1"',
-        new,
-    )
-
-    return new
+def cap_resistor_swap(fp: bytes, ref: bytes) -> bytes:
+    """Swap Resistor_SMD: <-> Capacitor_SMD: based on Reference designator type."""
+    # Capacitor refs: C, CL (but not Conn, Crystal, etc.)
+    if ref.startswith((b'C', b'CL')):
+        # Plain C followed by digit, or CL followed by digit
+        if re.match(rb'^(C|CL)\d', ref):
+            if fp.startswith(b'Resistor_SMD:R_'):
+                return b'Capacitor_SMD:C_' + fp[len(b'Resistor_SMD:R_'):]
+    # Resistor refs: R followed by digit (skip Rsense which already has correct fp)
+    if ref.startswith(b'R') and re.match(rb'^R\d', ref):
+        if fp.startswith(b'Capacitor_SMD:C_'):
+            return b'Resistor_SMD:R_' + fp[len(b'Capacitor_SMD:C_'):]
+    return fp
 
 
-def fix_lib_symbols_block(text):
-    """Also rename embedded lib_symbols cache references.
+def process(path: Path, apply: bool) -> int:
+    data = path.read_bytes()
+    original = data
 
-    `(symbol "ESCLibrary:AT32F421G8U7"` -> `(symbol "components:AT32F421G8U7"`
-    inside the lib_symbols cache section. KiCad refreshes this on save so
-    the existing form would also work, but consistency is cleaner.
-    """
-    return re.sub(
-        r'\(symbol "ESCLibrary:([A-Za-z0-9_-]+)"',
-        r'(symbol "components:\1"',
-        text,
-    )
+    # ---- pass 1: unique-string namespace fixes (everywhere safe) ----
+    unique_count = 0
+    for old, new in UNIQUE_SUBS:
+        cnt = data.count(old)
+        if cnt > 0:
+            data = data.replace(old, new)
+            unique_count += cnt
 
+    # ---- pass 2: cap/resistor swap, line-based, skipping lib_symbols block ----
+    lib_range = find_lib_symbols_range(data)
+    swap_count = 0
 
-def process(path: Path):
-    text = path.read_text(encoding="utf-8")
-    new = text
-    # Iterate blocks and reassemble
-    out = []
+    # Operate line-by-line outside lib_symbols
+    out_chunks = []
     cursor = 0
-    fixes = 0
-    for start, end, body in find_symbol_blocks(new):
-        out.append(new[cursor:start])
-        fixed = fix_block(body)
-        if fixed != body:
-            fixes += 1
-        out.append(fixed)
-        cursor = end
-    out.append(new[cursor:])
-    rebuilt = "".join(out)
-    rebuilt = fix_lib_symbols_block(rebuilt)
-    if rebuilt != text:
-        path.write_text(rebuilt, encoding="utf-8")
-        print(f"{path.name}: rewrote ({fixes} instance blocks edited + lib_symbols cache rename)")
+    if lib_range:
+        # process before lib_symbols
+        before = data[cursor:lib_range[0]]
+        new_before, n = swap_in_chunk(before)
+        out_chunks.append(new_before)
+        swap_count += n
+        # keep lib_symbols block verbatim
+        out_chunks.append(data[lib_range[0]:lib_range[1]])
+        cursor = lib_range[1]
+    # process after lib_symbols (or whole file if no lib_symbols)
+    rest = data[cursor:]
+    new_rest, n = swap_in_chunk(rest)
+    out_chunks.append(new_rest)
+    swap_count += n
+
+    new_data = b"".join(out_chunks)
+
+    # Sanity: paren balance must match the original.
+    orig_open = original.count(b'(')
+    orig_close = original.count(b')')
+    new_open = new_data.count(b'(')
+    new_close = new_data.count(b')')
+    paren_ok = (orig_open == new_open) and (orig_close == new_close)
+
+    # Sanity: line count must match (we don't add/remove newlines).
+    orig_nl = original.count(b'\n')
+    new_nl = new_data.count(b'\n')
+    nl_ok = orig_nl == new_nl
+
+    diff = len(new_data) - len(original)
+    print(f"\n[{path.name}]")
+    print(f"  unique-string footprint subs: {unique_count}")
+    print(f"  cap/resistor swap subs:       {swap_count}")
+    print(f"  size delta: {diff:+d} bytes")
+    print(f"  paren balance preserved:  open {orig_open}->{new_open}, close {orig_close}->{new_close}  [{ 'OK' if paren_ok else 'FAIL' }]")
+    print(f"  newline count preserved:  {orig_nl}->{new_nl}  [{ 'OK' if nl_ok else 'FAIL' }]")
+
+    if not (paren_ok and nl_ok):
+        print(f"  ERROR: structural integrity broken — refusing to write.")
+        return 0
+
+    if apply and new_data != original:
+        path.write_bytes(new_data)
+        print(f"  -> wrote {path.name}")
+    elif new_data == original:
+        print(f"  (no changes)")
     else:
-        print(f"{path.name}: no changes")
+        print(f"  (dry-run; pass --apply to write)")
+    return unique_count + swap_count
+
+
+def swap_in_chunk(chunk: bytes):
+    """Walk lines, tracking last-seen Reference, swap Footprint values."""
+    lines = chunk.split(b'\n')
+    last_ref = None
+    n = 0
+    for i, line in enumerate(lines):
+        m = REF_RE.search(line)
+        if m:
+            last_ref = m.group(1)
+            continue
+        m = FP_RE.search(line)
+        if m and last_ref is not None:
+            old_fp = m.group(1)
+            new_fp = cap_resistor_swap(old_fp, last_ref)
+            if new_fp != old_fp:
+                old_quoted = b'"' + old_fp + b'"'
+                new_quoted = b'"' + new_fp + b'"'
+                lines[i] = line.replace(old_quoted, new_quoted, 1)
+                n += 1
+            # Note: Reference-tracking persists across multiple Footprint
+            # lines if any (rare; one Footprint per symbol typically).
+    return b'\n'.join(lines), n
 
 
 if __name__ == "__main__":
+    apply = "--apply" in sys.argv
+    total = 0
     for p in FILES:
         if p.exists():
-            process(p)
-        else:
-            print(f"missing: {p}")
+            total += process(p, apply)
+    print(f"\nTOTAL substitutions: {total}")
+    if not apply:
+        print("Dry run. Pass --apply to write changes.")

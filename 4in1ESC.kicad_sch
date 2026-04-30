@@ -4723,7 +4723,7 @@
 					)
 				)
 			)
-			(property "Footprint" "components:IND-SMD_L1.6-W0.8_FTC160865SR47MBCA"
+			(property "Footprint" "4in1ESC:IND-SMD_L1.6-W0.8_FTC160865SR47MBCA"
 				(at 0 -10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -11771,7 +11771,7 @@
 				)
 			)
 		)
-		(property "Footprint" "components:IND-SMD_L1.6-W0.8_FTC160865SR47MBCA"
+		(property "Footprint" "4in1ESC:IND-SMD_L1.6-W0.8_FTC160865SR47MBCA"
 			(at 85.09 180.34 0)
 			(hide yes)
 			(show_name no)
