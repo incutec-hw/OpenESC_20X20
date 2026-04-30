@@ -44,3 +44,7 @@ CLAUDE.md
 
 # Repo-specific
 OpenFC/
+
+# Internal docs — keep markdowns local, README is the only public doc
+*.md
+!README.md
