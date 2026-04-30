@@ -48,3 +48,6 @@ OpenFC/
 # Internal docs — keep markdowns local, README is the only public doc
 *.md
 !README.md
+
+# Archive of stale design docs and unused scripts (local reference only)
+docs/
