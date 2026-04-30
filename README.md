@@ -27,7 +27,7 @@ I made a video explaining how it works: https://www.youtube.com/watch?v=TwAmmPxO
 
 The gate driver footprint is compatible with the entire FD6288Q clone family (27,000+ units combined stock across 7+ manufacturers) and the TI DRV8300. No PCB changes needed for any of them. Multiple pin-compatible MOSFET options are also available, including the FDMC8010DC (30V, 1.28mΩ) as a premium low-resistance option — 36% lower total phase resistance at the cost of reduced voltage headroom (7S max vs 8S+) and higher per-unit cost.
 
-See [ALTERNATIVES.md](ALTERNATIVES.md) for the full list of pin-compatible gate drivers and MOSFETs with LCSC part numbers, specs, and stock levels.
+See [ALTERNATIVES.md](ALTERNATIVES.md) for the full list of pin-compatible gate drivers and MOSFETs with LCSC part numbers, specs, and stock levels. Design rationale (dead time, Vds margin, commutation loop, BEC stage, bring-up) is in [DESIGN_NOTES.md](DESIGN_NOTES.md).
 
 ## How it's built
 
