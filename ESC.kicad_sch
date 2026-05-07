@@ -5291,7 +5291,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_WIDE"
 			(at 161.29 55.88 0)
 			(hide yes)
 			(show_name no)
@@ -6780,7 +6780,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_WIDE"
 			(at 151.13 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -8766,7 +8766,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_WIDE"
 			(at 171.45 58.42 0)
 			(hide yes)
 			(show_name no)
