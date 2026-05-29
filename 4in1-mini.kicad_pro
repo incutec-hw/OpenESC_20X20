@@ -497,7 +497,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "4in1ESC.kicad_pro",
+    "filename": "4in1-mini.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -652,8 +652,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "4in1ESC.kicad_sch",
-        "name": "4in1ESC",
+        "filename": "4in1-mini.kicad_sch",
+        "name": "4in1-mini",
         "uuid": "612d09d9-c556-41af-8a15-92be360f8e81"
       }
     ],
@@ -663,7 +663,7 @@
   "sheets": [
     [
       "612d09d9-c556-41af-8a15-92be360f8e81",
-      "4in1ESC"
+      "4in1-mini"
     ],
     [
       "f870c78f-43b6-4f66-afe4-21d85c4907b1",

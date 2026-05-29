@@ -4475,7 +4475,7 @@
 			(uuid "0b365f00-2520-4fbe-8043-084d979639de")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R69")
 					(unit 1)
@@ -4565,7 +4565,7 @@
 			(uuid "8b048119-c81d-41b2-b28f-74a3ca6457cc")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR093")
 					(unit 1)
@@ -4653,7 +4653,7 @@
 			(uuid "62274527-cf7a-455f-89b5-b31ea936ecf2")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "TP7")
 					(unit 1)
@@ -4743,7 +4743,7 @@
 			(uuid "6fac3e0b-5777-4e5c-a0e8-954ebaa41ff9")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR0105")
 					(unit 1)
@@ -4850,7 +4850,7 @@
 			(uuid "bb476a12-3033-46b1-8d44-57a9298b8122")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R68")
 					(unit 1)
@@ -4956,7 +4956,7 @@
 			(uuid "6d8d63cb-4965-4c75-b0f9-a6beefa34457")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "C80")
 					(unit 1)
@@ -5046,7 +5046,7 @@
 			(uuid "79c46d5c-6f33-42f1-8bed-ffa20404756a")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR090")
 					(unit 1)
@@ -5136,7 +5136,7 @@
 			(uuid "3b7c58c0-adfd-4873-918c-a5cf120c6778")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR095")
 					(unit 1)
@@ -5238,7 +5238,7 @@
 			(uuid "02081059-2e5c-462e-90e5-206646d31364")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R55")
 					(unit 1)
@@ -5344,7 +5344,7 @@
 			(uuid "094bebec-affa-4fcc-b8ca-aa8b7dc855d0")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "C35")
 					(unit 1)
@@ -5434,7 +5434,7 @@
 			(uuid "76577095-20a9-4ef2-8c98-2a9d5416fbc8")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR096")
 					(unit 1)
@@ -5608,7 +5608,7 @@
 			(uuid "f983f19c-3f4f-4a75-8d4d-a7dfd15869dc")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "U11")
 					(unit 1)
@@ -5698,7 +5698,7 @@
 			(uuid "b0b31f8a-76d5-4516-a265-c6102b00e198")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR0103")
 					(unit 1)
@@ -5805,7 +5805,7 @@
 			(uuid "08fafc4b-884a-442a-8c1d-005f4acbc2a1")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R64")
 					(unit 1)
@@ -5894,7 +5894,7 @@
 			(uuid "1b630c6c-54c6-4ed3-bbaf-41fce06b7a87")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR086")
 					(unit 1)
@@ -6000,7 +6000,7 @@
 			(uuid "0dd9741b-87e9-4c32-a302-2058597bc5fc")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R66")
 					(unit 1)
@@ -6089,7 +6089,7 @@
 			(uuid "792a4b5f-0668-438c-ad7e-690f4a038983")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR097")
 					(unit 1)
@@ -6195,7 +6195,7 @@
 			(uuid "bdd876fa-8f35-4ef1-947e-87370ba624c6")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "C79")
 					(unit 1)
@@ -6301,7 +6301,7 @@
 			(uuid "9ab4953a-280a-4827-a235-65cf14130adc")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R58")
 					(unit 1)
@@ -6407,7 +6407,7 @@
 			(uuid "7993368d-dfdc-44b1-bddc-480621618751")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R72")
 					(unit 1)
@@ -6513,7 +6513,7 @@
 			(uuid "cac52465-1e73-4fdd-b406-81dddf62d7d8")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "C78")
 					(unit 1)
@@ -6620,7 +6620,7 @@
 			(uuid "b1f48db4-6d04-4832-8b81-007487b8b513")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R65")
 					(unit 1)
@@ -6727,7 +6727,7 @@
 			(uuid "52ced202-f085-4c12-9c77-333d65b38a4e")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R70")
 					(unit 1)
@@ -6833,7 +6833,7 @@
 			(uuid "a7e2b490-20cc-406f-82e6-d7256e463bc9")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "C83")
 					(unit 1)
@@ -6940,7 +6940,7 @@
 			(uuid "ba430ca6-4fcf-446e-a27b-ca8c00ff17f5")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R67")
 					(unit 1)
@@ -7030,7 +7030,7 @@
 			(uuid "8c604c85-b5f5-4769-82ef-6a3a35492041")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR087")
 					(unit 1)
@@ -7132,7 +7132,7 @@
 			(uuid "b8ffe0ca-b08b-49f4-8063-e8c5de067114")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R61")
 					(unit 1)
@@ -7238,7 +7238,7 @@
 			(uuid "9a28d790-3a13-4ce5-b9c5-20fc498adcb4")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "C88")
 					(unit 1)
@@ -7425,7 +7425,7 @@
 			(uuid "838f448a-931d-4f8e-908e-39895f10227d")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "U10")
 					(unit 1)
@@ -7527,7 +7527,7 @@
 			(uuid "169e8771-d7b9-4fc0-a4a8-cffdfc102081")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R63")
 					(unit 1)
@@ -7635,7 +7635,7 @@
 			(uuid "ccbeb9fd-7493-4307-be67-66c156fbf533")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "Q21")
 					(unit 1)
@@ -7737,7 +7737,7 @@
 			(uuid "5cdf5c0a-f7d9-4ca5-b5a1-3bb667706485")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R62")
 					(unit 1)
@@ -7839,7 +7839,7 @@
 			(uuid "4de300a1-5e19-419d-90c7-597d443420e1")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R60")
 					(unit 1)
@@ -7929,7 +7929,7 @@
 			(uuid "694d9d93-4ae2-4dc4-ae0e-806a4048afca")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR059")
 					(unit 1)
@@ -8037,7 +8037,7 @@
 			(uuid "fbdd6072-0fa6-4159-9dda-6b6e8545fea3")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "Q20")
 					(unit 1)
@@ -8144,7 +8144,7 @@
 			(uuid "e4305f1b-28bf-4871-a1d9-12f844efe167")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R71")
 					(unit 1)
@@ -8252,7 +8252,7 @@
 			(uuid "ddc10c96-1ddb-4096-aaec-1d943dd1c1f8")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "Q23")
 					(unit 1)
@@ -8342,7 +8342,7 @@
 			(uuid "0468d25c-3851-4767-9930-601fad2a9051")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR0104")
 					(unit 1)
@@ -8444,7 +8444,7 @@
 			(uuid "bc3dac57-724b-4c9f-9603-4aee08051cca")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R56")
 					(unit 1)
@@ -8534,7 +8534,7 @@
 			(uuid "16e4748d-4794-47c4-a13a-e7ef5f528faa")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR0114")
 					(unit 1)
@@ -8623,7 +8623,7 @@
 			(uuid "1db0d6d1-15c8-404d-a8c1-f8fcd20b582c")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR0102")
 					(unit 1)
@@ -8713,7 +8713,7 @@
 			(uuid "828e2e31-1883-4fc2-8f24-43c5fd6242ed")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR0101")
 					(unit 1)
@@ -8819,7 +8819,7 @@
 			(uuid "20ccc572-8914-4b6f-ad1d-24f7c95f5950")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "C39")
 					(unit 1)
@@ -8922,7 +8922,7 @@
 			(uuid "440974fa-ba33-4d7b-b3c4-1b602b848e18")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R77")
 					(unit 1)
@@ -9030,7 +9030,7 @@
 			(uuid "817e33aa-91e3-4753-b629-12ea7eb51755")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "Q19")
 					(unit 1)
@@ -9138,7 +9138,7 @@
 			(uuid "095cbf82-9255-4f66-ace9-7ed079250100")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R59")
 					(unit 1)
@@ -9227,7 +9227,7 @@
 			(uuid "e2a3c74f-70b3-46c8-b2ee-d00791c49a35")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR098")
 					(unit 1)
@@ -9315,7 +9315,7 @@
 			(uuid "3c251030-5506-4e4e-8624-22201a0dd7ec")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "TP8")
 					(unit 1)
@@ -9405,7 +9405,7 @@
 			(uuid "89489a1f-bcf3-494f-828d-115242611f45")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR0100")
 					(unit 1)
@@ -9511,7 +9511,7 @@
 			(uuid "f83145ca-0398-40bb-8ec0-b82ec230d618")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "R57")
 					(unit 1)
@@ -9600,7 +9600,7 @@
 			(uuid "2c3bcf0c-ae99-4ded-aa66-898b098d8818")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR091")
 					(unit 1)
@@ -9689,7 +9689,7 @@
 			(uuid "b2c3c33f-e765-4571-8294-ada97b3b29b1")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR089")
 					(unit 1)
@@ -9778,7 +9778,7 @@
 			(uuid "9a56304d-a04e-447b-afbd-a388bcf92ccd")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "#PWR092")
 					(unit 1)
@@ -9886,7 +9886,7 @@
 			(uuid "def3ca04-5e4d-4a5f-9a7a-96e9da160409")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "Q22")
 					(unit 1)
@@ -9994,7 +9994,7 @@
 			(uuid "5c6710b2-a518-4715-bf85-d4707dd6b918")
 		)
 		(instances
-			(project "4in1ESC"
+			(project "4in1-mini"
 				(path "/612d09d9-c556-41af-8a15-92be360f8e81/0f1ac7ef-71be-4cf4-81ac-90268323e1b3"
 					(reference "Q24")
 					(unit 1)

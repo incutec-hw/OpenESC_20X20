@@ -33,7 +33,7 @@ See [ALTERNATIVES.md](ALTERNATIVES.md) for the full list of pin-compatible gate 
 
 The schematic is split into a main sheet and a sub-sheet that's reused 4 times — one per ESC channel.
 
-The main sheet (`4in1ESC.kicad_sch`) has the power supply, current sensing, and the 8-pin connector. Each ESC channel (`ESC.kicad_sch`) has:
+The main sheet (`4in1-mini.kicad_sch`) has the power supply, current sensing, and the 8-pin connector. Each ESC channel (`ESC.kicad_sch`) has:
 - AT32F421G8U7 running AM32 firmware
 - NSG2065Q 3-phase gate driver with bootstrap caps
 - 6x SP40N03GNJ MOSFETs in 3 half-bridges
@@ -42,9 +42,9 @@ The main sheet (`4in1ESC.kicad_sch`) has the power supply, current sensing, and 
 ## Project structure
 
 ```
-4in1ESC.kicad_sch     Main schematic (power, sensing, connector)
+4in1-mini.kicad_sch   Main schematic (power, sensing, connector)
 ESC.kicad_sch         Single ESC channel (used 4x)
-4in1ESC.kicad_pcb     PCB layout
+4in1-mini.kicad_pcb   PCB layout
 4in1ESC.pretty/       Custom footprints
 4in1ESC.3dshapes/     3D models (STEP files)
 components.kicad_sym  Custom symbols (gate driver, connector, etc.)
