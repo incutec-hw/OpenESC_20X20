@@ -8,11 +8,11 @@ Part of the incutec OpenDrone line (`incutec-hw/OpenESC_20X20`).
 
 > A larger **[OpenESC-30x30](https://github.com/incutec-hw/OpenESC-30x30)** (30.5×30.5 mm) shares this design and mirrors this repo. The two differ only in board/mounting size and a few power-stage parts.
 >
-> 📖 This README is the canonical board reference. Per-sheet engineering rationale (mirrored from the on-canvas KiCad comments) is in [`DESIGN_NOTES.md`](DESIGN_NOTES.md); stackup/copper-weight and beta-spec decisions are in [`V_BETA_CHANGELIST.md`](V_BETA_CHANGELIST.md). Build, flashing, and bring-up/testing notes belong in the project wiki.
+> 📖 This README is the canonical board reference. Per-sheet engineering rationale (mirrored from the on-canvas KiCad comments) is in [`hardware/DESIGN_NOTES.md`](hardware/DESIGN_NOTES.md); stackup/copper-weight and beta-spec decisions are in `hardware/V_BETA_CHANGELIST.md` (local). Build, flashing, and bring-up/testing notes belong in the project wiki.
 
 ## Architecture
 
-Four fully independent ESC channels share a common power input and telemetry connector. Each channel has its own MCU and gate driver; the high-current stage is six MOSFETs per channel (three half-bridges). This is the distributed-MCU AM32 4-in-1 topology rather than a single-MCU design. Values below are extracted from the KiCad design files (`4in1-mini.kicad_sch`, `ESC.kicad_sch`, `4in1-mini.kicad_pcb`) and the production BOM (`production/Rev2-20x20_bom.csv`).
+Four fully independent ESC channels share a common power input and telemetry connector. Each channel has its own MCU and gate driver; the high-current stage is six MOSFETs per channel (three half-bridges). This is the distributed-MCU AM32 4-in-1 topology rather than a single-MCU design. Values below are extracted from the KiCad design files (`hardware/4in1-mini.kicad_sch`, `hardware/ESC.kicad_sch`, `hardware/4in1-mini.kicad_pcb`) and the production BOM (`hardware/production/Rev2-20x20_bom.csv`).
 
 | Block | Part | LCSC | Per board |
 |---|---|---|---|
@@ -59,37 +59,41 @@ Connector ground returns on the shield/mounting pads P1/P2 (both GND). Pin 4 —
 
 ## Variants and revisions
 
-This repo is the 20×20 (mini) member of the OpenESC family; the 30×30 sibling lives in [`OpenESC-30x30`](https://github.com/incutec-hw/OpenESC-30x30). Production exports in `production/` show successive board spins; the current target is **Rev2-20x20** (`fabrication-toolkit-options.json` archive name `Rev2-20x20`). Earlier exports (`V1`, `V2`, `v0.1`–`v0.3`) are retained for history. Per the beta spec (`V_BETA_CHANGELIST.md`), this board is **6S only** (TVS-clamped); an 8S board is tracked as a separate SKU.
+This repo is the 20×20 (mini) member of the OpenESC family; the 30×30 sibling lives in [`OpenESC-30x30`](https://github.com/incutec-hw/OpenESC-30x30). Production exports in `hardware/production/` show successive board spins; the current target is **Rev2-20x20** (`hardware/fabrication-toolkit-options.json` archive name `Rev2-20x20`). Earlier exports (`V1`, `V2`, `v0.1`–`v0.3`) are retained for history. Per the beta spec (`V_BETA_CHANGELIST.md`), this board is **6S only** (TVS-clamped); an 8S board is tracked as a separate SKU.
 
 ## Firmware
 
-[AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) — incutec's default ESC firmware. Each channel's AT32F421G8U7 is flashed independently; `flash_openesc20.sh` programs the AM32 bootloader and firmware over an ST-LINK V2 pogo-pin jig. The AT32F421 + NSG2065Q per-channel topology and the DShot signal nets are the standard AM32 4-in-1 hardware target. Works with Betaflight and other DShot-capable flight controllers.
+[AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) — incutec's default ESC firmware. Each channel's AT32F421G8U7 is flashed independently; `hardware/flash_openesc20.sh` programs the AM32 bootloader and firmware over an ST-LINK V2 pogo-pin jig. The AT32F421 + NSG2065Q per-channel topology and the DShot signal nets are the standard AM32 4-in-1 hardware target. Works with Betaflight and other DShot-capable flight controllers.
 
 ## Repository structure
 
 ```
-4in1-mini.kicad_sch        Top schematic (power, current sense, connector)
-ESC.kicad_sch              Single ESC channel sheet (instantiated 4×)
-4in1-mini.kicad_pcb        Main board layout (6-layer)
-4in1-mini.kicad_pro        Main project
-components.kicad_sym       Project-local symbol library
-4in1ESC.pretty/            Project-local footprints
-4in1ESC.3dshapes/          3D models (STEP)
-4in1-mini.step / .glb      Exported board 3D models
-production/                JLCPCB fabrication exports (gerbers, BOM, CPL) per revision
-fabrication-toolkit-options.json   JLCPCB Fabrication Toolkit settings
-flash_openesc20.sh         Production flash script (AM32 bootloader + firmware via ST-LINK)
-datasheets/                Component datasheets + COMPONENT_REVIEW.md
-docs/archive/              Design notes, alternatives, sourcing, cost analysis
-licensing/                 Hardware license, third-party notices, trademark policy
-tools/ , scripts/          Analysis scripts
-V_BETA_CHANGELIST.md       Beta spec: stackup/copper-weight decisions, 6S-only rationale
-images/                    Render images
+README.md  LICENSE  CLAUDE.md            Repo root: docs + license + agent instructions
+images/                                  Board render images
+licensing/                               Hardware license, third-party notices, trademark policy
+hardware/                                KiCad 9 project (everything to build/fab the board)
+├── 4in1-mini.kicad_sch                  Top schematic (power, current sense, connector)
+├── ESC.kicad_sch                        Single ESC channel sheet (instantiated 4×)
+├── 4in1-mini.kicad_pcb                  Main board layout (6-layer)
+├── 4in1-mini.kicad_pro                  Main project
+├── DESIGN_NOTES.md                      Per-sheet engineering rationale (mirrors canvas)
+├── components.kicad_sym                 Project-local symbol library
+├── 4in1ESC.pretty/                      Project-local footprints
+├── 4in1ESC.3dshapes/                   3D models (STEP)
+├── fp-lib-table / sym-lib-table         Project-local library tables (${KIPRJMOD})
+├── 4in1-mini.step / .glb                Exported board 3D models
+├── production/                          JLCPCB fabrication exports (gerbers, BOM, CPL) per revision
+├── fabrication-toolkit-options.json     KiCad Fabrication Toolkit settings
+├── flash_openesc20.sh                   Production flash script (AM32 bootloader via ST-LINK)
+├── datasheets/                          Component datasheets + COMPONENT_REVIEW.md
+├── tools/ , scripts/                    Analysis scripts
+├── V_BETA_CHANGELIST.md                 Beta spec: stackup/copper-weight, 6S-only rationale (local)
+└── docs/archive/                        Design notes, alternatives, sourcing, cost analysis (local)
 ```
 
 ## Manufacturing
 
-Targets JLCPCB PCBA. Each `production/<rev>.zip` contains gerbers; `_bom.csv` and `_positions.csv` are the assembly inputs. Current set: `production/Rev2-20x20.*`. Fabrication exports are generated with the KiCad Fabrication Toolkit (`fabrication-toolkit-options.json`). The production BOM carries LCSC part numbers for JLCPCB assembly (e.g. AT32F421G8U7 = C2765098, NSG2065Q = C41414478, DOY180N03T = C49441966, INA186A3IDCKR = C2058245, LMR54406DBVR = C5219316, TLV76733DRVR = C2848334, SMF24A-T13 = C1977154).
+Targets JLCPCB PCBA. Each `hardware/production/<rev>.zip` contains gerbers; `_bom.csv` and `_positions.csv` are the assembly inputs. Current set: `hardware/production/Rev2-20x20.*`. Fabrication exports are generated with the KiCad Fabrication Toolkit (`hardware/fabrication-toolkit-options.json`). The production BOM carries LCSC part numbers for JLCPCB assembly (e.g. AT32F421G8U7 = C2765098, NSG2065Q = C41414478, DOY180N03T = C49441966, INA186A3IDCKR = C2058245, LMR54406DBVR = C5219316, TLV76733DRVR = C2848334, SMF24A-T13 = C1977154).
 
 ## License
 
