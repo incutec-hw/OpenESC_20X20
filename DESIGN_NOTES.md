@@ -16,15 +16,27 @@ the design rationale annotated directly on the sheets — keep the two in sync.
 
 **Topology:** +BATT input, TVS clamp, buck + LDO power, board-level current sense, 8-pin connector.
 
+### Connector / telemetry
+- **No telemetry signal pin** — telemetry is handled by the **extended DShot
+  protocol** (bidirectional, over the motor signal lines). Connector pin 4 is
+  therefore intentionally unconnected.
+
 ### Input protection
-- 2× **SMF24A-T13** TVS on +BATT (24 V standoff). 6S-only target.
+- 2× **SMF24A-T13** TVS on +BATT (24 V standoff). 6S-only target. The TVS means
+  there will be some leakage at a fully charged 6S pack (25.2 V), but voltage
+  clamping is improved too — tradeoff being monitored.
 
 ### Buck (gate-drive rail)
-- **LMR54406DBVR**: 4–36 V input, 1.1 MHz, 0.6 A — plenty for gate driving.
+- **LMR54406DBVR**: 4–36 V input, can handle 50 V spikes (8S support TBD).
+- 1.1 MHz switching, 0.6 A — plenty for gate driving.
 - FTC160808S4R7MBCA 4.7 µH inductor. FB divider 115k / 10k, Vref 0.8 V → **10.0 V** rail.
 
 ### Current sense
 - Board-level high-side: **0.2 mΩ shunt × 100 V/V (INA186A3) gain → Max 165 A** at 3.3 V ADC.
+
+### Decoupling
+- Total array of **20 decoupling caps**. At 25 V DC bias each cap derates to only
+  ~1.5–2 µF, so 30–40 µF total but very low ESL.
 
 ---
 

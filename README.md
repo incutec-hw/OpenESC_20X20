@@ -47,13 +47,13 @@ Current/voltage ratings are not printed on the design files. The input clamp is 
 | 1 | +BATT | Battery positive |
 | 2 | GND | Ground |
 | 3 | /CURR | Current-sense telemetry (INA186 output) |
-| 4 | *(unconnected)* | No net wired — no telemetry/UART line present |
+| 4 | *(unconnected)* | No dedicated telemetry pin — telemetry handled by extended DShot |
 | 5 | /M1 | DShot signal, channel 1 |
 | 6 | /M2 | DShot signal, channel 2 |
 | 7 | /M3 | DShot signal, channel 3 |
 | 8 | /M4 | DShot signal, channel 4 |
 
-Connector ground returns on the shield/mounting pads P1/P2 (both GND). Note: pin 4 — where the Betaflight 8-pin standard carries the ESC→FC telemetry line — is unconnected on this board.
+Connector ground returns on the shield/mounting pads P1/P2 (both GND). Pin 4 — the dedicated telemetry pin on the Betaflight 8-pin standard — is intentionally unconnected: ESC→FC telemetry is carried over the motor signal lines via the bidirectional **extended DShot** protocol.
 
 ## Variants and revisions
 
