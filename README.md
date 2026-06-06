@@ -1,58 +1,94 @@
-# Open 4-in-1 AM32 ESC
+# OpenESC_20X20
 
-An open-source 4-in-1 ESC for FPV drones. Runs [AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) firmware, works with Betaflight over DShot. Designed in KiCad.
+Open-source 4-in-1 BLDC ESC with a 20 × 20 mm mounting pattern, built around four independent AT32F421 motor controllers running AM32. Six-layer, DShot over the standard 8-pin connector. Designed in KiCad for JLCPCB assembly.
 
-I made a video explaining how it works: https://www.youtube.com/watch?v=TwAmmPxOpTM
+Part of the incutec OpenDrone line (`incutec-hw/OpenESC_20X20`).
 
-<img width="622" height="678" alt="Screenshot 2026-03-09 at 21 01 59" src="https://github.com/user-attachments/assets/40ab86d7-e7c2-46e8-b2fc-61c8ba19fa80" />
-<img width="604" height="640" alt="Screenshot 2026-03-09 at 21 02 12" src="https://github.com/user-attachments/assets/c0d8b194-cb31-4f07-9650-9fd69ad4cd7d" />
+> A larger **[OpenESC-30x30](https://github.com/incutec-hw/OpenESC-30x30)** (30.5×30.5 mm) shares this design and mirrors this repo. The two differ only in board/mounting size and a few power-stage parts.
+>
+> 📖 This README is the canonical board reference. Per-sheet engineering rationale (mirrored from the on-canvas KiCad comments) is in [`DESIGN_NOTES.md`](DESIGN_NOTES.md); stackup/copper-weight and beta-spec decisions are in [`V_BETA_CHANGELIST.md`](V_BETA_CHANGELIST.md). Build, flashing, and bring-up/testing notes belong in the project wiki.
 
-## Specs
+## Architecture
+
+Four fully independent ESC channels share a common power input and telemetry connector. Each channel has its own MCU and gate driver; the high-current stage is six MOSFETs per channel (three half-bridges). This is the distributed-MCU AM32 4-in-1 topology rather than a single-MCU design. Values below are extracted from the KiCad design files (`4in1-mini.kicad_sch`, `ESC.kicad_sch`, `4in1-mini.kicad_pcb`) and the production BOM (`production/Rev2-20x20_bom.csv`).
+
+| Block | Part | LCSC | Per board |
+|---|---|---|---|
+| Motor MCU | AT32F421G8U7 (QFN-28) | C2765098 | 4 |
+| Gate driver | NSG2065Q (QFN-24) | C41414478 | 4 |
+| Power MOSFETs | DOY180N03T PowerDI3333-8 | C49441966 | 24 (6 per channel) |
+
+## Specifications
 
 | Parameter | Value |
 |---|---|
-| Firmware | AM32 |
-| Input voltage | 3-6S LiPo (11.1-25.2V) |
-| Continuous current | 35A per channel |
-| MCU | AT32F421G8U7 (ARM Cortex-M4, 120MHz) |
-| Gate driver | NSG2065Q (3-phase, FD6288Q-compatible) |
-| MOSFETs | SP40N03GNJ (40V, 2.9mΩ) — optional FDMC8010DC (30V, 1.28mΩ) for premium builds |
-| Current sensing | INA186A3IDCKR (100V/V) + 0.2mOhm shunt (165A max) |
-| Protocol | DShot (Betaflight compatible) |
-| Power supply | LMR51420YDDCR buck + TLV76733DRVR LDO |
-| Connector | JST SM08B-SRSS-TB (Betaflight 8-pin standard) |
-| PCB | 6-layer, 1oz copper |
+| Channels | 4 independent BLDC channels |
+| MCU | AT32F421G8U7 (ARM Cortex-M4, QFN-28), one per channel |
+| Gate driver | NSG2065Q (QFN-24, FD6288Q-compatible), one per channel |
+| Power MOSFETs | DOY180N03T, 30 V, PowerDI3333-8, 24 total |
+| Current sense | Board-level high-side: INA186A3IDCKR (100 V/V, SC-70-6) + 1× 0.2 mΩ 2512 shunt (Rsense1) in the +BATT feed → 20 mV/A → 165 A full-scale at 3.3 V ADC |
+| Input | +BATT direct from connector/pads, 6S target |
+| Input protection | 2× SMF24A-T13 TVS (24 V standoff) |
+| Buck regulator | LMR54406DBVR (SOT-23-6) + FTC160808S4R7MBCA 4.7 µH inductor → +10 V gate-drive rail (FB 115k/10k, Vref 0.8 V → 10.0 V) |
+| LDO | TLV76733DRVR (WSON-6) → +3V3 (MCUs, sensing), from +10 V |
+| Signal protocol | DShot (4 independent signal lines, one per channel) |
+| Firmware | AM32 (per-channel AT32F421 target, flashed individually) |
+| PCB | 6-layer; outline ≈ 31.3 × 33.1 mm |
+| Mounting pattern | 20 × 20 mm, 4× holes (M2) |
 
-## Alternative Components
+Current/voltage ratings are not printed on the design files. The input clamp is set by the SMF24A-T13 TVS (24 V standoff → 6S); the MOSFET (DOY180N03T) and current-sense full-scale (165 A) set the practical envelope. Characterize before quoting a hard rating.
 
-The gate driver footprint is compatible with the entire FD6288Q clone family (27,000+ units combined stock across 7+ manufacturers) and the TI DRV8300. No PCB changes needed for any of them. Multiple pin-compatible MOSFET options are also available, including the FDMC8010DC (30V, 1.28mΩ) as a premium low-resistance option — 36% lower total phase resistance at the cost of reduced voltage headroom (7S max vs 8S+) and higher per-unit cost.
+## Connector
 
-See [ALTERNATIVES.md](ALTERNATIVES.md) for the full list of pin-compatible gate drivers and MOSFETs with LCSC part numbers, specs, and stock levels. Design rationale (dead time, Vds margin, commutation loop, BEC stage, bring-up) is in [DESIGN_NOTES.md](DESIGN_NOTES.md).
+8-pin JST **SM08B-SRSS-TB** (J1). Pin-to-net mapping extracted from the schematic (net labels at the connector pins):
 
-## How it's built
+| Pin | Net | Function |
+|---|---|---|
+| 1 | +BATT | Battery positive |
+| 2 | GND | Ground |
+| 3 | /CURR | Current-sense telemetry (INA186 output) |
+| 4 | *(unconnected)* | No net wired — no telemetry/UART line present |
+| 5 | /M1 | DShot signal, channel 1 |
+| 6 | /M2 | DShot signal, channel 2 |
+| 7 | /M3 | DShot signal, channel 3 |
+| 8 | /M4 | DShot signal, channel 4 |
 
-The schematic is split into a main sheet and a sub-sheet that's reused 4 times — one per ESC channel.
+Connector ground returns on the shield/mounting pads P1/P2 (both GND). Note: pin 4 — where the Betaflight 8-pin standard carries the ESC→FC telemetry line — is unconnected on this board.
 
-The main sheet (`4in1-mini.kicad_sch`) has the power supply, current sensing, and the 8-pin connector. Each ESC channel (`ESC.kicad_sch`) has:
-- AT32F421G8U7 running AM32 firmware
-- NSG2065Q 3-phase gate driver with bootstrap caps
-- 6x SP40N03GNJ MOSFETs in 3 half-bridges
-- Back-EMF feedback network for sensorless commutation
+## Variants and revisions
 
-## Project structure
+This repo is the 20×20 (mini) member of the OpenESC family; the 30×30 sibling lives in [`OpenESC-30x30`](https://github.com/incutec-hw/OpenESC-30x30). Production exports in `production/` show successive board spins; the current target is **Rev2-20x20** (`fabrication-toolkit-options.json` archive name `Rev2-20x20`). Earlier exports (`V1`, `V2`, `v0.1`–`v0.3`) are retained for history. Per the beta spec (`V_BETA_CHANGELIST.md`), this board is **6S only** (TVS-clamped); an 8S board is tracked as a separate SKU.
+
+## Firmware
+
+[AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) — incutec's default ESC firmware. Each channel's AT32F421G8U7 is flashed independently; `flash_openesc20.sh` programs the AM32 bootloader and firmware over an ST-LINK V2 pogo-pin jig. The AT32F421 + NSG2065Q per-channel topology and the DShot signal nets are the standard AM32 4-in-1 hardware target. Works with Betaflight and other DShot-capable flight controllers.
+
+## Repository structure
 
 ```
-4in1-mini.kicad_sch   Main schematic (power, sensing, connector)
-ESC.kicad_sch         Single ESC channel (used 4x)
-4in1-mini.kicad_pcb   PCB layout
-4in1ESC.pretty/       Custom footprints
-4in1ESC.3dshapes/     3D models (STEP files)
-components.kicad_sym  Custom symbols (gate driver, connector, etc.)
-datasheets/           Component datasheets
-licensing/            Branding and third-party notices
-tools/                Analysis scripts
+4in1-mini.kicad_sch        Top schematic (power, current sense, connector)
+ESC.kicad_sch              Single ESC channel sheet (instantiated 4×)
+4in1-mini.kicad_pcb        Main board layout (6-layer)
+4in1-mini.kicad_pro        Main project
+components.kicad_sym       Project-local symbol library
+4in1ESC.pretty/            Project-local footprints
+4in1ESC.3dshapes/          3D models (STEP)
+4in1-mini.step / .glb      Exported board 3D models
+production/                JLCPCB fabrication exports (gerbers, BOM, CPL) per revision
+fabrication-toolkit-options.json   JLCPCB Fabrication Toolkit settings
+flash_openesc20.sh         Production flash script (AM32 bootloader + firmware via ST-LINK)
+datasheets/                Component datasheets + COMPONENT_REVIEW.md
+docs/archive/              Design notes, alternatives, sourcing, cost analysis
+licensing/                 Hardware license, third-party notices, trademark policy
+tools/ , scripts/          Analysis scripts
+V_BETA_CHANGELIST.md       Beta spec: stackup/copper-weight decisions, 6S-only rationale
+images/                    Render images
 ```
+
+## Manufacturing
+
+Targets JLCPCB PCBA. Each `production/<rev>.zip` contains gerbers; `_bom.csv` and `_positions.csv` are the assembly inputs. Current set: `production/Rev2-20x20.*`. Fabrication exports are generated with the KiCad Fabrication Toolkit (`fabrication-toolkit-options.json`). The production BOM carries LCSC part numbers for JLCPCB assembly (e.g. AT32F421G8U7 = C2765098, NSG2065Q = C41414478, DOY180N03T = C49441966, INA186A3IDCKR = C2058245, LMR54406DBVR = C5219316, TLV76733DRVR = C2848334, SMF24A-T13 = C1977154).
 
 ## License
 
-Licensed under [CERN-OHL-S-2.0](https://ohwr.org/cern_ohl_s_v2.txt). See [LICENSE](LICENSE) and [licensing/](licensing/) for branding and third-party notices.
+Hardware: [CERN-OHL-S-2.0](https://ohwr.org/cern_ohl_s_v2.txt). See [LICENSE](LICENSE) and [licensing/](licensing/) for branding and third-party notices.

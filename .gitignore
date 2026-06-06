@@ -45,9 +45,10 @@ CLAUDE.md
 # Repo-specific
 OpenFC/
 
-# Internal docs — keep markdowns local, README is the only public doc
+# Internal docs — keep markdowns local; README + DESIGN_NOTES are public docs
 *.md
 !README.md
+!DESIGN_NOTES.md
 
 # Archive of stale design docs and unused scripts (local reference only)
 docs/
