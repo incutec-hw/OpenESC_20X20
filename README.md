@@ -10,8 +10,6 @@ Open-source 4-in-1 BLDC ESC with a 20 × 20 mm mounting pattern, built around fo
 Part of the incutec OpenDrone line (`incutec-hw/OpenESC_20X20`).
 
 > A larger **[OpenESC-30x30](https://github.com/incutec-hw/OpenESC-30x30)** (30.5×30.5 mm) shares this design and mirrors this repo. The two differ only in board/mounting size and a few power-stage parts.
->
-> 📖 This README is the canonical board reference. Per-sheet engineering rationale (mirrored from the on-canvas KiCad comments) is in [`hardware/DESIGN_NOTES.md`](hardware/DESIGN_NOTES.md); stackup/copper-weight and beta-spec decisions are in `hardware/V_BETA_CHANGELIST.md` (local). Build, flashing, and bring-up/testing notes belong in the project wiki.
 
 ## Architecture
 
@@ -66,7 +64,7 @@ This repo is the 20×20 (mini) member of the OpenESC family; the 30×30 sibling 
 
 ## Firmware
 
-[AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) — incutec's default ESC firmware. Each channel's AT32F421G8U7 is flashed independently; `hardware/flash_openesc20.sh` programs the AM32 bootloader and firmware over an ST-LINK V2 pogo-pin jig. The AT32F421 + NSG2065Q per-channel topology and the DShot signal nets are the standard AM32 4-in-1 hardware target. Works with Betaflight and other DShot-capable flight controllers.
+[AM32](https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware) — incutec's default ESC firmware. Boards ship with the AM32 bootloader pre-loaded; firmware is flashed and configured in-browser at [am32.ca](https://am32.ca). Each channel's AT32F421G8U7 is an independent AM32 target. The AT32F421 + NSG2065Q per-channel topology and the DShot signal nets are the standard AM32 4-in-1 hardware target. Works with Betaflight and other DShot-capable flight controllers.
 
 ## Repository structure
 
@@ -79,7 +77,6 @@ hardware/                                KiCad 9 project (everything to build/fa
 ├── ESC.kicad_sch                        Single ESC channel sheet (instantiated 4×)
 ├── 4in1-mini.kicad_pcb                  Main board layout (6-layer)
 ├── 4in1-mini.kicad_pro                  Main project
-├── DESIGN_NOTES.md                      Per-sheet engineering rationale (mirrors canvas)
 ├── components.kicad_sym                 Project-local symbol library
 ├── 4in1ESC.pretty/                      Project-local footprints
 ├── 4in1ESC.3dshapes/                   3D models (STEP)
@@ -93,10 +90,6 @@ hardware/                                KiCad 9 project (everything to build/fa
 ├── V_BETA_CHANGELIST.md                 Beta spec: stackup/copper-weight, 6S-only rationale (local)
 └── docs/archive/                        Design notes, alternatives, sourcing, cost analysis (local)
 ```
-
-## Manufacturing
-
-Targets JLCPCB PCBA. Each `hardware/production/<rev>.zip` contains gerbers; `_bom.csv` and `_positions.csv` are the assembly inputs. Current set: `hardware/production/Rev2-20x20.*`. Fabrication exports are generated with the KiCad Fabrication Toolkit (`hardware/fabrication-toolkit-options.json`). The production BOM carries LCSC part numbers for JLCPCB assembly (e.g. AT32F421G8U7 = C2765098, NSG2065Q = C41414478, DOY180N03T = C49441966, INA186A3IDCKR = C2058245, LMR54406DBVR = C5219316, TLV76733DRVR = C2848334, SMF24A-T13 = C1977154).
 
 ## License
 
